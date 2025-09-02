@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [devCode, setDevCode] = useState<string | null>(null);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
