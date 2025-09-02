@@ -79,7 +79,7 @@ export default function JiraPanel() {
     queryKey: ['/api/integrations/jira/issues', selectedProject, statusFilter],
     queryFn: async () => {
       const params = new URLSearchParams();
-      if (selectedProject) params.append('project', selectedProject);
+      if (selectedProject && selectedProject !== '__all__') params.append('project', selectedProject);
       if (statusFilter !== 'all') params.append('status', statusFilter);
       
       const response = await apiRequest(`/api/integrations/jira/issues?${params.toString()}`);
@@ -251,7 +251,7 @@ export default function JiraPanel() {
                   <SelectValue placeholder="All Projects" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Projects</SelectItem>
+                  <SelectItem value="__all__">All Projects</SelectItem>
                   {projects.map(project => (
                     <SelectItem key={project.id} value={project.key}>
                       {project.name}
