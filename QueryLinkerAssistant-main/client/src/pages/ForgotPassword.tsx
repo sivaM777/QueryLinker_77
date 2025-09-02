@@ -157,7 +157,15 @@ export default function ForgotPassword() {
             <p className="text-gray-600 text-sm mb-6">
               We've sent a verification code to <strong>{email}</strong>
             </p>
-            
+
+            {devCode && (
+              <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
+                <p className="text-sm text-green-800">
+                  <strong>Development mode:</strong> Use this verification code now: <span className="font-mono font-bold">{devCode}</span>
+                </p>
+              </div>
+            )}
+
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
               <p className="text-sm text-blue-800">
                 <strong>📧 Check your inbox!</strong><br />
