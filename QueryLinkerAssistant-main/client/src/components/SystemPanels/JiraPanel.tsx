@@ -53,7 +53,7 @@ export default function JiraPanel() {
     issueType: "Task",
     projectKey: ""
   });
-  const [selectedProject, setSelectedProject] = useState<string>("");
+  const [selectedProject, setSelectedProject] = useState<string>("__all__");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const { toast } = useToast();
