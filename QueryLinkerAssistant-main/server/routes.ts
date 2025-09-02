@@ -68,7 +68,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/auth/login', async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email: rawEmail, password } = req.body;
+      const email = (rawEmail || '').toLowerCase().trim();
       
       if (!email || !password) {
         return res.status(400).json({ message: "Email and password are required" });
@@ -105,7 +106,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Password reset request
   app.post('/api/auth/forgot-password', async (req, res) => {
     try {
-      const { email } = req.body;
+      const { email: rawEmail } = req.body;
+      const email = (rawEmail || '').toLowerCase().trim();
       
       if (!email) {
         return res.status(400).json({ message: "Email is required" });
@@ -157,7 +159,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Verify reset code
   app.post('/api/auth/verify-reset-code', async (req, res) => {
     try {
-      const { email, code } = req.body;
+      const { email: rawEmail, code: rawCode } = req.body;
+      const email = (rawEmail || '').toLowerCase().trim();
+      const code = (rawCode || '').toString().trim();
       
       if (!email || !code) {
         return res.status(400).json({ message: "Email and verification code are required" });
@@ -170,11 +174,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Check if code matches and is not expired
-      if (user.passwordResetCode !== code) {
+      if ((user as any).passwordResetCode !== code) {
         return res.status(400).json({ message: "Invalid verification code" });
       }
 
-      if (!user.passwordResetExpires || user.passwordResetExpires < new Date()) {
+      if (!user.passwordResetExpires || new Date(user.passwordResetExpires as any) < new Date()) {
         return res.status(400).json({ message: "Verification code has expired. Please request a new one." });
       }
 
@@ -192,7 +196,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Password reset confirmation
   app.post('/api/auth/reset-password', async (req, res) => {
     try {
-      const { email, code, newPassword } = req.body;
+      const { email: rawEmail, code: rawCode, newPassword } = req.body;
+      const email = (rawEmail || '').toLowerCase().trim();
+      const code = (rawCode || '').toString().trim();
       
       if (!email || !code || !newPassword) {
         return res.status(400).json({ message: "Email, verification code, and new password are required" });
@@ -209,11 +215,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Check if code matches and is not expired
-      if (user.passwordResetCode !== code) {
+      if ((user as any).passwordResetCode !== code) {
         return res.status(400).json({ message: "Invalid verification code" });
       }
 
-      if (!user.passwordResetExpires || user.passwordResetExpires < new Date()) {
+      if (!user.passwordResetExpires || new Date(user.passwordResetExpires as any) < new Date()) {
         return res.status(400).json({ message: "Verification code has expired. Please request a new one." });
       }
 
@@ -241,7 +247,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Check if token is expired
-      if (!user.passwordResetExpires || user.passwordResetExpires < new Date()) {
+      if (!user.passwordResetExpires || new Date(user.passwordResetExpires as any) < new Date()) {
         return res.status(400).json({ valid: false, message: "Reset token has expired" });
       }
 
