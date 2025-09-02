@@ -12,12 +12,12 @@
         "role": "user",
         "emailVerified": false,
         "passwordResetToken": "042e2cdde8dcc928af3fad1f59644b980dc9a7c5c30a8fe68409d93fbc7c8c7e",
-        "passwordResetExpires": "2025-09-02T14:14:59.817Z",
+        "passwordResetExpires": "2025-09-02T14:16:45.983Z",
         "lastLoginAt": "2025-09-02T14:03:14.884Z",
         "authProvider": "email",
         "createdAt": "2025-08-24T11:04:35.064Z",
-        "updatedAt": "2025-09-02T14:04:59.817Z",
-        "passwordResetCode": "145194"
+        "updatedAt": "2025-09-02T14:06:45.983Z",
+        "passwordResetCode": "417830"
       }
     ],
     [
