@@ -60,7 +60,7 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   createEmailUser(userData: any): Promise<User>;
   updateUserLastLogin(id: string): Promise<void>;
-  setPasswordResetToken(id: string, token: string, expires: Date): Promise<void>;
+  setPasswordResetCode(id: string, code: string, expires: Date): Promise<void>;
   getUserByResetToken(token: string): Promise<User | undefined>;
   updateUserPassword(id: string, hashedPassword: string): Promise<void>;
 
@@ -980,8 +980,8 @@ class MemoryStorage implements IStorage {
         profileImageUrl: userData.profileImageUrl || null,
         role: userData.role || 'user',
         emailVerified: userData.emailVerified || false,
-        passwordResetToken: userData.passwordResetToken || null,
-        passwordResetExpires: userData.passwordResetExpires || null,
+        passwordResetCode: (userData as any).passwordResetCode || null,
+        passwordResetExpires: (userData as any).passwordResetExpires || null,
         lastLoginAt: userData.lastLoginAt || null,
         authProvider: userData.authProvider || 'email',
         createdAt: new Date(),
@@ -1010,7 +1010,7 @@ class MemoryStorage implements IStorage {
       profileImageUrl: null,
       role: 'user',
       emailVerified: false,
-      passwordResetToken: null,
+      passwordResetCode: null,
       passwordResetExpires: null,
       lastLoginAt: null,
       authProvider: 'email',
@@ -1030,24 +1030,24 @@ class MemoryStorage implements IStorage {
     }
   }
 
-  async setPasswordResetToken(id: string, token: string, expires: Date): Promise<void> {
+  async setPasswordResetCode(id: string, code: string, expires: Date): Promise<void> {
     const user = this.users.get(id);
     if (user) {
-      user.passwordResetToken = token;
+      (user as any).passwordResetCode = code;
       user.passwordResetExpires = expires;
       user.updatedAt = new Date();
     }
   }
 
   async getUserByResetToken(token: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => user.passwordResetToken === token);
+    return Array.from(this.users.values()).find(user => (user as any).passwordResetCode === token);
   }
 
   async updateUserPassword(id: string, hashedPassword: string): Promise<void> {
     const user = this.users.get(id);
     if (user) {
       user.password = hashedPassword;
-      user.passwordResetToken = null;
+      (user as any).passwordResetCode = null;
       user.passwordResetExpires = null;
       user.updatedAt = new Date();
     }
