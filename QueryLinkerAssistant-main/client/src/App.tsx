@@ -19,6 +19,8 @@ import SystemWorkspace from "@/pages/SystemWorkspace";
 import IncidentManagement from "@/pages/IncidentManagement";
 import AdvancedAnalytics from "@/pages/AdvancedAnalytics";
 import SlackCommands from "@/pages/SlackCommands";
+import JiraAutomation from "@/pages/JiraAutomation";
+import SupportPortal from "@/pages/SupportPortal";
 import SlackInterface from "@/pages/SlackInterface";
 import NotionWorkspace from "@/pages/NotionWorkspace";
 import ForgotPassword from "@/pages/ForgotPassword";
@@ -91,6 +93,8 @@ function Router() {
               <Route path="/activity" component={Activity} />
               <Route path="/settings" component={Settings} />
               <Route path="/workspace/:system" component={SystemWorkspace} />
+              <Route path="/jira/automation" component={JiraAutomation} />
+              <Route path="/zendesk/support" component={SupportPortal} />
               <Route path="/dashboard" component={Dashboard} />
               <Route component={NotFound} />
             </Switch>
