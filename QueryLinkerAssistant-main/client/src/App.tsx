@@ -91,6 +91,7 @@ function Router() {
               <Route path="/activity" component={Activity} />
               <Route path="/settings" component={Settings} />
               <Route path="/workspace/:system" component={SystemWorkspace} />
+              <Route path="/dashboard" component={Dashboard} />
               <Route component={NotFound} />
             </Switch>
           </div>
