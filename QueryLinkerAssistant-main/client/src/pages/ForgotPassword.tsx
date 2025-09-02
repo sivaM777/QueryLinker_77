@@ -33,9 +33,10 @@ export default function ForgotPassword() {
     },
     onSuccess: (data) => {
       setIsSubmitted(true);
+      if (data && data.verificationCode) setDevCode(data.verificationCode);
       toast({
         title: "Verification Code Sent",
-        description: "Check your email for the verification code.",
+        description: data?.verificationCode ? `Dev code: ${data.verificationCode}` : "Check your email for the verification code.",
       });
     },
     onError: (error: any) => {
