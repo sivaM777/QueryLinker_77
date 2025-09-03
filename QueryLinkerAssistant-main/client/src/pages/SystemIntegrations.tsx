@@ -275,7 +275,7 @@ export default function SystemIntegrations() {
                   </Button>
                   <Button 
                     onClick={handleAddSystem}
-                    disabled={!selectedSystem || addSystemMutation.isPending}
+                    disabled={!selectedSystem || addSystemMutation.isPending || !selectableSystems.find(s => s.value === selectedSystem)}
                     data-testid="confirm-add-system"
                   >
                     {addSystemMutation.isPending ? "Adding..." : "Add System"}
