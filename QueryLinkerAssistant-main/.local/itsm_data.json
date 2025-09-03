@@ -158,21 +158,6 @@
   ],
   "systems": [
     {
-      "id": 3,
-      "name": "GitHub Repository",
-      "type": "repository",
-      "config": {
-        "baseUrl": "https://api.github.com",
-        "authType": "token",
-        "syncInterval": 900,
-        "description": "Source code and technical documentation"
-      },
-      "isActive": true,
-      "createdAt": "2025-08-24T11:02:45.104Z",
-      "updatedAt": "2025-08-24T11:02:45.104Z",
-      "lastSyncAt": null
-    },
-    {
       "name": "Google Meet",
       "type": "googlemeet",
       "isActive": true,

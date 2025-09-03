@@ -499,7 +499,7 @@ export default function SystemIntegrationsGrid() {
                     {/* Action Buttons */}
                     <div className="mt-auto pt-4 border-t border-gray-200 dark:border-slate-700">
                       <div className="flex items-center justify-between gap-2">
-                        {system.isActive && ['slack', 'googlemeet', 'zendesk', 'notion', 'linear'].includes(system.type) ? (
+                        {system.isActive && ['slack', 'googlemeet', 'zendesk', 'notion', 'linear', 'jira', 'github', 'confluence', 'servicenow', 'servicenow-itsm', 'servicenowkb', 'servicenow-kb'].includes(system.type) ? (
                           <Button
                             variant="default"
                             size="sm"
@@ -508,7 +508,7 @@ export default function SystemIntegrationsGrid() {
                             className="flex-1"
                           >
                             <ExternalLink className="h-4 w-4 mr-2" />
-                            Workspace
+                            Open Workspace
                           </Button>
                         ) : (
                           <Button
