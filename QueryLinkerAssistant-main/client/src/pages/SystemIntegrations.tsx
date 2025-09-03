@@ -166,6 +166,9 @@ export default function SystemIntegrations() {
     { value: "custom", label: "Custom API", icon: "🔧" },
   ];
 
+  const connectedTypes = new Set(((systems as any[]) || []).map((s: any) => s.type));
+  const selectableSystems = availableSystems.filter(s => !connectedTypes.has(s.value));
+
   const handleAddSystem = () => {
     if (!selectedSystem) return;
     
