@@ -251,14 +251,20 @@ export default function SystemIntegrations() {
                       <SelectValue placeholder="Choose a system to integrate" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableSystems.map((system) => (
-                        <SelectItem key={system.value} value={system.value}>
-                          <div className="flex items-center gap-2">
-                            <span>{system.icon}</span>
-                            <span>{system.label}</span>
-                          </div>
-                        </SelectItem>
-                      ))}
+                      {selectableSystems.length === 0 ? (
+                        <div className="px-3 py-2 text-sm text-muted-foreground">
+                          All available systems are connected. Delete one to add another.
+                        </div>
+                      ) : (
+                        selectableSystems.map((system) => (
+                          <SelectItem key={system.value} value={system.value}>
+                            <div className="flex items-center gap-2">
+                              <span>{system.icon}</span>
+                              <span>{system.label}</span>
+                            </div>
+                          </SelectItem>
+                        ))
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
