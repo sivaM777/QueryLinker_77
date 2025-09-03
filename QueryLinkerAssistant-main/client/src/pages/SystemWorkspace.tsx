@@ -29,6 +29,7 @@ import ZendeskPanel from "@/components/SystemPanels/ZendeskPanel";
 import NotionPanel from "@/components/SystemPanels/NotionPanel";
 import LinearPanel from "@/components/SystemPanels/LinearPanel";
 import ServiceNowPanel from "@/components/SystemPanels/ServiceNowPanel";
+import GitHubPanel from "@/components/SystemPanels/GitHubPanel";
 
 interface WorkspaceConfig {
   embedUrl: string | null;
