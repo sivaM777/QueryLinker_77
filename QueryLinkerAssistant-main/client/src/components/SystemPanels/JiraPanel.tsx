@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { Bug, Plus, AlertCircle, CheckCircle, Clock, User, Tag, ExternalLink, Search } from "lucide-react";
+import { Bug, Plus, AlertCircle, CheckCircle, Clock, User, Tag, ExternalLink, Search, RefreshCw } from "lucide-react";
 
 interface JiraIssue {
   id: string;
