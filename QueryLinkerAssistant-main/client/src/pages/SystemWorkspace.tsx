@@ -396,6 +396,36 @@ export default function SystemWorkspace() {
         icon: "🎯",
         color: "bg-orange-600",
         description: "Issue tracking and project management"
+      },
+      github: {
+        name: "GitHub",
+        icon: "💻",
+        color: "bg-gray-900",
+        description: "Code hosting and collaboration"
+      },
+      confluence: {
+        name: "Confluence",
+        icon: "📚",
+        color: "bg-blue-700",
+        description: "Knowledge base and documentation"
+      },
+      servicenow: {
+        name: "ServiceNow",
+        icon: "☁️",
+        color: "bg-emerald-700",
+        description: "IT service management and knowledge base"
+      },
+      servicenowkb: {
+        name: "ServiceNow KB",
+        icon: "📘",
+        color: "bg-emerald-700",
+        description: "ServiceNow Knowledge Base"
+      },
+      'servicenow-kb': {
+        name: "ServiceNow KB",
+        icon: "📘",
+        color: "bg-emerald-700",
+        description: "ServiceNow Knowledge Base"
       }
     };
     
