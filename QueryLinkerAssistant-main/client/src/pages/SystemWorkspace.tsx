@@ -709,6 +709,15 @@ export default function SystemWorkspace() {
                   </div>
                   <NotionPanel />
                 </div>
+              ) : system === 'confluence' || system === 'servicenow-kb' ? (
+                <div className="p-6 bg-white dark:bg-slate-800 min-h-[400px]">
+                  <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg mb-4">
+                    <h2 className="text-xl font-bold text-blue-900 dark:text-blue-100">📚 {system === 'confluence' ? 'Confluence' : 'ServiceNow KB'} Workspace</h2>
+                    <p className="text-blue-700 dark:text-blue-200">System: {system}</p>
+                    <p className="text-blue-700 dark:text-blue-200">Auth Status: {authStatus?.authenticated ? 'Connected' : 'Not Connected'}</p>
+                  </div>
+                  <NotionPanel />
+                </div>
               ) : system === 'linear' ? (
                 <div className="p-6 bg-white dark:bg-slate-800 min-h-[400px]">
                   <div className="bg-purple-100 dark:bg-purple-900 p-4 rounded-lg mb-4">
@@ -726,6 +735,15 @@ export default function SystemWorkspace() {
                     <p className="text-green-700 dark:text-green-200">Auth Status: {authStatus?.authenticated ? 'Connected' : 'Not Connected'}</p>
                   </div>
                   <ServiceNowPanel />
+                </div>
+              ) : system === 'github' ? (
+                <div className="p-6 bg-white dark:bg-slate-800 min-h-[400px]">
+                  <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mb-4">
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">💻 GitHub Workspace</h2>
+                    <p className="text-gray-700 dark:text-gray-300">System: {system}</p>
+                    <p className="text-gray-700 dark:text-gray-300">Auth Status: {authStatus?.authenticated ? 'Connected' : 'Not Connected'}</p>
+                  </div>
+                  <GitHubPanel />
                 </div>
               ) : workspaceConfig?.embedUrl ? (
                 <iframe
