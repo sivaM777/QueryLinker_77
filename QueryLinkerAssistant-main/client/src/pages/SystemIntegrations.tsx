@@ -353,7 +353,7 @@ export default function SystemIntegrations() {
                   </div>
 
                   <div className="flex items-center justify-between mt-auto gap-2">
-                    {system.isActive && ['slack', 'googlemeet', 'zendesk', 'notion', 'linear'].includes(system.type) ? (
+                    {system.isActive && ['slack', 'googlemeet', 'zendesk', 'notion', 'linear', 'jira', 'github', 'confluence', 'servicenow', 'servicenow-itsm', 'servicenowkb', 'servicenow-kb'].includes(system.type) ? (
                       <Link href={`/workspace/${system.type}`}>
                         <Button
                           size="sm"
