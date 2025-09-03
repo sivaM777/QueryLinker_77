@@ -171,10 +171,11 @@ export default function SystemIntegrations() {
 
   const handleAddSystem = () => {
     if (!selectedSystem) return;
-    
-    const systemType = availableSystems.find(s => s.value === selectedSystem);
+    const systemType = selectableSystems.find(s => s.value === selectedSystem);
+    if (!systemType) return;
+
     addSystemMutation.mutate({
-      name: systemType?.label || selectedSystem,
+      name: systemType.label,
       type: selectedSystem,
       isActive: true,
     });
