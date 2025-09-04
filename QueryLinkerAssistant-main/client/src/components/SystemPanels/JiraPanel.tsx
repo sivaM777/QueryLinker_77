@@ -213,10 +213,8 @@ export default function JiraPanel() {
                       }
                     } catch {}
                     try {
-                      const res = await apiRequest(`/api/auth/jira/login`);
-                      const data = await res.json();
                       if (win) {
-                        win.location.replace(data.authUrl);
+                        win.location.replace(`/api/auth/jira/login?mode=redirect`);
                         const check = setInterval(() => {
                           if (win && win.closed) {
                             clearInterval(check);
@@ -226,7 +224,7 @@ export default function JiraPanel() {
                           }
                         }, 1000);
                       } else {
-                        window.location.href = data.authUrl; // fallback if popup blocked
+                        window.location.href = `/api/auth/jira/login?mode=redirect`; // fallback if popup blocked
                       }
                     } catch (e) {
                       if (win) try { win.close(); } catch {}
