@@ -720,7 +720,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         zendesk: `https://${process.env.ZENDESK_SUBDOMAIN}.zendesk.com/oauth/authorizations/new?response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&client_id=${process.env.ZENDESK_CLIENT_ID}&scope=read`,
         notion: `https://api.notion.com/v1/oauth/authorize?client_id=${process.env.NOTION_CLIENT_ID}&response_type=code&owner=user&redirect_uri=${encodeURIComponent(redirectUri)}`,
         linear: `https://linear.app/oauth/authorize?client_id=${process.env.LINEAR_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=read&response_type=code`,
-        jira: `https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${process.env.JIRA_CLIENT_ID}&scope=read:jira-work%20read:jira-user%20read:project:jira&redirect_uri=${encodeURIComponent(redirectUri)}&state=${encodeURIComponent(JSON.stringify({ system: 'jira' }))}&response_type=code&prompt=consent`
+        jira: `https://auth.atlassian.com/authorize?client_id=${process.env.JIRA_CLIENT_ID}&scope=read:jira-work%20read:jira-user%20read:project:jira&redirect_uri=${encodeURIComponent(redirectUri)}&state=${encodeURIComponent(JSON.stringify({ system: 'jira' }))}&response_type=code&prompt=consent`
       };
       
       const authUrl = authUrls[system as keyof typeof authUrls];
