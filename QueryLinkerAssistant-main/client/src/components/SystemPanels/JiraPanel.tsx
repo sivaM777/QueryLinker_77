@@ -203,7 +203,21 @@ export default function JiraPanel() {
               </p>
               <div className="flex items-center justify-center gap-2">
                 <Button asChild>
-                  <a href="/api/auth/jira/login?mode=redirect">
+                  <a
+                    href="/api/auth/jira/login?mode=redirect"
+                    target="_top"
+                    onClick={(e) => {
+                      try {
+                        const url = '/api/auth/jira/login?mode=redirect';
+                        if (window.top && window.top !== window) {
+                          e.preventDefault();
+                          (window.top as Window).location.href = url;
+                        }
+                      } catch {
+                        // If cross-origin blocks access to window.top, let the anchor proceed
+                      }
+                    }}
+                  >
                     Connect Jira Account
                   </a>
                 </Button>
