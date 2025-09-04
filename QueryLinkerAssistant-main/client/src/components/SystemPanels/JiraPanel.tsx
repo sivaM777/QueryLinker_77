@@ -207,15 +207,23 @@ export default function JiraPanel() {
                     try {
                       const res = await apiRequest(`/api/auth/jira/login`);
                       const data = await res.json();
-                      const win = window.open(data.authUrl, 'jira-oauth', 'width=520,height=640');
-                      const check = setInterval(() => {
-                        if (win && win.closed) {
-                          clearInterval(check);
-                          queryClient.invalidateQueries({ queryKey: ['/api/auth/jira/status'] });
-                          queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/projects'] });
-                          queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/issues'] });
-                        }
-                      }, 1000);
+                      let win: Window | null = null;
+                      try {
+                        win = window.open('', 'jira-oauth', 'width=520,height=640,scrollbars=yes,resizable=yes');
+                      } catch {}
+                      if (win) {
+                        win.location.href = data.authUrl;
+                        const check = setInterval(() => {
+                          if (win && win.closed) {
+                            clearInterval(check);
+                            queryClient.invalidateQueries({ queryKey: ['/api/auth/jira/status'] });
+                            queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/projects'] });
+                            queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/issues'] });
+                          }
+                        }, 1000);
+                      } else {
+                        window.location.href = data.authUrl; // fallback if popup blocked
+                      }
                     } catch (e) {
                       console.error(e);
                     }
