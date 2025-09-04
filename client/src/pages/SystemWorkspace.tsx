@@ -62,10 +62,11 @@ export default function SystemWorkspace() {
 
   const authenticateMutation = useMutation({
     mutationFn: async () => {
-      // For Jira and similar systems, use direct redirect instead of popup
+      // For Jira and similar systems, use direct navigation instead of AJAX
       if (system === 'jira' || system === 'slack' || system === 'notion' || system === 'linear') {
-        // Direct redirect to OAuth endpoint
-        window.open(`/api/auth/${system}/login`, '_blank');
+        // Create direct link to OAuth endpoint - this will trigger server redirect
+        const authUrl = `${window.location.origin}/api/auth/${system}/login`;
+        window.location.href = authUrl; // Direct navigation instead of window.open
         return { success: true };
       }
       
