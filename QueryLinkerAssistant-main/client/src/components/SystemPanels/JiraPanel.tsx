@@ -204,15 +204,19 @@ export default function JiraPanel() {
               <div className="flex items-center justify-center gap-2">
                 <Button
                   onClick={async () => {
+                    // Open popup synchronously to keep user-gesture
+                    let win: Window | null = null;
+                    try {
+                      win = window.open('', 'jira-oauth', 'width=520,height=640,scrollbars=yes,resizable=yes');
+                      if (win && win.document) {
+                        win.document.write('<p style="font-family:sans-serif;padding:16px;">Connecting to Atlassian…</p>');
+                      }
+                    } catch {}
                     try {
                       const res = await apiRequest(`/api/auth/jira/login`);
                       const data = await res.json();
-                      let win: Window | null = null;
-                      try {
-                        win = window.open('', 'jira-oauth', 'width=520,height=640,scrollbars=yes,resizable=yes');
-                      } catch {}
                       if (win) {
-                        win.location.href = data.authUrl;
+                        win.location.replace(data.authUrl);
                         const check = setInterval(() => {
                           if (win && win.closed) {
                             clearInterval(check);
@@ -225,6 +229,7 @@ export default function JiraPanel() {
                         window.location.href = data.authUrl; // fallback if popup blocked
                       }
                     } catch (e) {
+                      if (win) try { win.close(); } catch {}
                       console.error(e);
                     }
                   }}
