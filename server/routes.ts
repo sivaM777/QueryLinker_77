@@ -732,8 +732,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (system === 'slack') {
         return res.redirect(authUrl);
       }
-      // For Jira, allow redirect mode to make popups reliable
-      if (system === 'jira' && req.query.mode === 'redirect') {
+      // For Jira, always use redirect mode to work in iframe environments
+      if (system === 'jira') {
         return res.redirect(authUrl);
       }
 
