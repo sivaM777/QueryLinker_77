@@ -201,16 +201,39 @@ export default function JiraPanel() {
                   errorMessage
                 }
               </p>
-              <Button
-                onClick={() => {
-                  queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/projects'] });
-                  queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/issues'] });
-                }}
-                variant="outline"
-              >
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Retry Connection
-              </Button>
+              <div className="flex items-center justify-center gap-2">
+                <Button
+                  onClick={async () => {
+                    try {
+                      const res = await apiRequest(`/api/auth/jira/login`);
+                      const data = await res.json();
+                      const win = window.open(data.authUrl, 'jira-oauth', 'width=520,height=640');
+                      const check = setInterval(() => {
+                        if (win && win.closed) {
+                          clearInterval(check);
+                          queryClient.invalidateQueries({ queryKey: ['/api/auth/jira/status'] });
+                          queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/projects'] });
+                          queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/issues'] });
+                        }
+                      }, 1000);
+                    } catch (e) {
+                      console.error(e);
+                    }
+                  }}
+                >
+                  Connect Jira Account
+                </Button>
+                <Button
+                  onClick={() => {
+                    queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/projects'] });
+                    queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/issues'] });
+                  }}
+                  variant="outline"
+                >
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Retry Connection
+                </Button>
+              </div>
             </div>
           </div>
         </CardContent>
