@@ -868,7 +868,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         throw new Error('Failed to exchange code for token');
       }
 
-      // Get user's accessible resources (Jira sites)
+      // Get user's accessible resources (Jira/Confluence sites)
       const resourceResponse = await fetch('https://api.atlassian.com/oauth/token/accessible-resources', {
         headers: {
           'Authorization': `Bearer ${tokenData.access_token}`,
@@ -882,44 +882,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
         throw new Error('No accessible Jira resources found');
       }
 
-      // Use the first resource (site)
-      const jiraSite = resources[0];
-      
-      // Create or update Jira data source
-      const jiraConfig = {
-        access_token: tokenData.access_token,
-        refresh_token: tokenData.refresh_token,
-        expires_at: new Date(Date.now() + tokenData.expires_in * 1000),
-        site_id: jiraSite.id,
-        site_name: jiraSite.name,
-        site_url: jiraSite.url,
-        scope: tokenData.scope,
+      // Determine resources for Jira and Confluence
+      const existingDataSources = await storage.getDataSources();
+
+      const connectSite = async (product: 'jira' | 'confluence', site: any) => {
+        const config = {
+          access_token: tokenData.access_token,
+          refresh_token: tokenData.refresh_token,
+          expires_at: new Date(Date.now() + tokenData.expires_in * 1000),
+          site_id: site.id,
+          site_name: site.name,
+          site_url: site.url,
+          scope: tokenData.scope,
+        };
+        const existing = existingDataSources.find(ds => ds.type === product);
+        if (existing) {
+          await storage.updateDataSource(existing.id, {
+            baseUrl: site.url,
+            oauthConfig: config,
+            isActive: true,
+            lastSyncAt: new Date(),
+          });
+        } else {
+          await storage.createDataSource({
+            name: `${product === 'jira' ? 'Jira' : 'Confluence'} - ${site.name}`,
+            type: product,
+            baseUrl: site.url,
+            oauthConfig: config,
+            syncInterval: 300,
+            isActive: true,
+          });
+        }
       };
 
-      // Create or update the Jira data source in the database
-      const existingDataSources = await storage.getDataSources();
-      const existingJira = existingDataSources.find(ds => ds.type === 'jira');
+      // Prefer matching by product type if available; otherwise connect first as Jira
+      const jiraSite = resources.find((r: any) => (r.scopes || []).some((s: string) => s.includes('jira'))) || resources[0];
+      if (jiraSite) await connectSite('jira', jiraSite);
 
-      if (existingJira) {
-        await storage.updateDataSource(existingJira.id, {
-          baseUrl: jiraSite.url,
-          oauthConfig: jiraConfig,
-          isActive: true,
-          lastSyncAt: new Date(),
-        });
-      } else {
-        await storage.createDataSource({
-          name: `Jira - ${jiraSite.name}`,
-          type: 'jira',
-          baseUrl: jiraSite.url,
-          oauthConfig: jiraConfig,
-          syncInterval: 300, // 5 minutes
-          isActive: true,
-        });
-      }
+      const confluenceSite = resources.find((r: any) => (r.scopes || []).some((s: string) => s.includes('confluence')));
+      if (confluenceSite) await connectSite('confluence', confluenceSite);
 
-      console.log('Jira site connected:', jiraSite.name);
-      
+      console.log('Atlassian sites connected:', { jira: jiraSite?.name, confluence: confluenceSite?.name });
+
       return res.send(`
         <html>
           <body>
@@ -992,12 +996,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let authenticated = Boolean(systemRecord?.isActive);
       let lastSync = systemRecord?.lastSyncAt;
 
-      // For Jira (and similar OAuth-backed systems), require a valid data source OAuth config
-      if (system === 'jira') {
+      // For Jira/Confluence (OAuth-backed systems), require a valid data source OAuth config
+      if (system === 'jira' || system === 'confluence') {
         const dataSources = await storage.getDataSources();
-        const jira = dataSources.find(ds => ds.type === 'jira' && ds.isActive && (ds.oauthConfig as any)?.access_token);
-        authenticated = Boolean(jira);
-        lastSync = jira?.lastSyncAt || lastSync;
+        const ds = dataSources.find(ds => ds.type === system && ds.isActive && (ds.oauthConfig as any)?.access_token);
+        authenticated = Boolean(ds);
+        lastSync = ds?.lastSyncAt || lastSync;
       }
 
       res.json({ authenticated, system, lastSync });
@@ -1067,14 +1071,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
             create: '/api/integrations/jira/issues'
           },
           customInterface: true // Flag to show custom interface instead of iframe
+        },
+        confluence: {
+          embedUrl: null, // filled dynamically from connected site
+          features: ['pages', 'spaces', 'search'],
+          apiEndpoints: {}
         }
       };
       
-      const config = workspaceConfigs[system as keyof typeof workspaceConfigs];
+      let config = workspaceConfigs[system as keyof typeof workspaceConfigs];
       if (!config) {
         return res.status(400).json({ message: 'Unsupported system' });
       }
-      
+
+      // Populate dynamic embed URL for Confluence from stored data source
+      if (system === 'confluence') {
+        const dataSources = await storage.getDataSources();
+        const conf = dataSources.find(ds => ds.type === 'confluence' && ds.isActive && (ds.oauthConfig as any)?.site_url);
+        if (conf) {
+          config = { ...config, embedUrl: `${(conf.oauthConfig as any).site_url}/wiki` } as any;
+        }
+      }
+
       res.json(config);
     } catch (error) {
       console.error(`Error fetching ${req.params.system} workspace config:`, error);
