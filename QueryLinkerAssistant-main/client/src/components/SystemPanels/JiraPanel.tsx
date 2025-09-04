@@ -182,7 +182,7 @@ export default function JiraPanel() {
       <Card className="w-full">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            ��� Jira Integration
+            🎯 Jira Integration
             <Badge variant="destructive">Connection Error</Badge>
           </CardTitle>
         </CardHeader>
@@ -203,7 +203,7 @@ export default function JiraPanel() {
               </p>
               <div className="flex items-center justify-center gap-2">
                 <Button asChild>
-                  <a href="/api/auth/jira/login?mode=redirect" target="_blank" rel="noopener noreferrer">
+                  <a href="/api/auth/jira/login?mode=redirect">
                     Connect Jira Account
                   </a>
                 </Button>
