@@ -985,16 +985,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/auth/:system/status', async (req, res) => {
     try {
       const { system } = req.params;
-      
-      // Check if system is authenticated (in a real app, check session/database)
-      const systems = await storage.getSystems();
-      const systemRecord = systems.find(s => s.type === system);
-      
-      res.json({
-        authenticated: systemRecord?.isActive || false,
-        system,
-        lastSync: systemRecord?.lastSyncAt
-      });
+
+      // Base flag from systems table
+      const systemsList = await storage.getSystems();
+      const systemRecord = systemsList.find(s => s.type === system);
+      let authenticated = Boolean(systemRecord?.isActive);
+      let lastSync = systemRecord?.lastSyncAt;
+
+      // For Jira (and similar OAuth-backed systems), require a valid data source OAuth config
+      if (system === 'jira') {
+        const dataSources = await storage.getDataSources();
+        const jira = dataSources.find(ds => ds.type === 'jira' && ds.isActive && (ds.oauthConfig as any)?.access_token);
+        authenticated = Boolean(jira);
+        lastSync = jira?.lastSyncAt || lastSync;
+      }
+
+      res.json({ authenticated, system, lastSync });
     } catch (error) {
       console.error(`Error checking ${req.params.system} auth status:`, error);
       res.status(500).json({ message: 'Failed to check auth status' });
