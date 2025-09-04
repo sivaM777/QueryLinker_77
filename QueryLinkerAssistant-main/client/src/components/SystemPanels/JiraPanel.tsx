@@ -182,7 +182,7 @@ export default function JiraPanel() {
       <Card className="w-full">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            🎯 Jira Integration
+            ��� Jira Integration
             <Badge variant="destructive">Connection Error</Badge>
           </CardTitle>
         </CardHeader>
@@ -202,33 +202,10 @@ export default function JiraPanel() {
                 }
               </p>
               <div className="flex items-center justify-center gap-2">
-                <Button
-                  onClick={() => {
-                    const origin = window.location.origin;
-                    const authUrl = `${origin}/api/auth/jira/login?mode=redirect`;
-                    // Open the redirect URL synchronously in a popup (preserves user gesture)
-                    const win = window.open(
-                      authUrl,
-                      'jira-oauth',
-                      'width=520,height=640,scrollbars=yes,resizable=yes'
-                    );
-                    if (!win) {
-                      // Popup blocked: fall back to same-tab navigation
-                      window.location.href = authUrl;
-                      return;
-                    }
-                    // Poll for window close to refresh data
-                    const check = setInterval(() => {
-                      if (win.closed) {
-                        clearInterval(check);
-                        queryClient.invalidateQueries({ queryKey: ['/api/auth/jira/status'] });
-                        queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/projects'] });
-                        queryClient.invalidateQueries({ queryKey: ['/api/integrations/jira/issues'] });
-                      }
-                    }, 1000);
-                  }}
-                >
-                  Connect Jira Account
+                <Button asChild>
+                  <a href="/api/auth/jira/login?mode=redirect" target="_blank" rel="noopener noreferrer">
+                    Connect Jira Account
+                  </a>
                 </Button>
                 <Button
                   onClick={() => {
