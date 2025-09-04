@@ -62,11 +62,27 @@ export default function SystemWorkspace() {
 
   const authenticateMutation = useMutation({
     mutationFn: async () => {
+      // For Jira and similar systems, use direct redirect instead of popup
+      if (system === 'jira' || system === 'slack' || system === 'notion' || system === 'linear') {
+        // Direct redirect to OAuth endpoint
+        window.open(`/api/auth/${system}/login`, '_blank');
+        return { success: true };
+      }
+      
       const response = await apiRequest(`/api/auth/${system}/login`);
       return response as { authUrl: string; redirectUri: string };
     },
     onSuccess: (data) => {
-      // Open OAuth window
+      if (data.success) {
+        // For direct redirect systems, just show success message
+        toast({
+          title: "Authentication Started",
+          description: "Please complete the authentication in the new tab, then return here.",
+        });
+        return;
+      }
+      
+      // Fallback for other systems
       const authWindow = window.open(
         data.authUrl,
         'oauth',

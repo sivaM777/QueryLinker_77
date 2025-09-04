@@ -930,12 +930,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       return res.send(`
         <html>
+          <head>
+            <title>Jira Connected Successfully</title>
+            <style>
+              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; text-align: center; padding: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; margin: 0; }
+              .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 500px; margin: 0 auto; }
+              .success { color: #28a745; font-size: 32px; margin-bottom: 20px; }
+              .site-name { color: #007bff; font-weight: bold; }
+              .message { color: #333; margin-bottom: 20px; font-size: 16px; line-height: 1.5; }
+              .button { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block; font-size: 16px; transition: background 0.2s; }
+              .button:hover { background: #0056b3; }
+              .countdown { color: #666; font-size: 14px; margin-top: 20px; }
+            </style>
+          </head>
           <body>
-            <h2>Successfully Connected!</h2>
-            <p>Your Jira site "${jiraSite.name}" has been connected to QueryLinker.</p>
-            <p>You can now close this window and return to the application.</p>
+            <div class="container">
+              <div class="success">✅ Successfully Connected!</div>
+              <p class="message">Your Jira site <span class="site-name">"${jiraSite.name}"</span> has been connected to QueryLinker.</p>
+              <p class="message">You can now access your Jira projects, issues, and data directly in QueryLinker!</p>
+              <a href="https://${host}/integrations" class="button">Return to System Integrations</a>
+              <p class="countdown">You'll be redirected automatically in <span id="countdown">5</span> seconds...</p>
+            </div>
             <script>
-              setTimeout(() => window.close(), 3000);
+              let count = 5;
+              const countdownElement = document.getElementById('countdown');
+              const interval = setInterval(() => {
+                count--;
+                countdownElement.textContent = count;
+                if (count <= 0) {
+                  clearInterval(interval);
+                  window.location.href = 'https://${host}/integrations';
+                }
+              }, 1000);
             </script>
           </body>
         </html>
