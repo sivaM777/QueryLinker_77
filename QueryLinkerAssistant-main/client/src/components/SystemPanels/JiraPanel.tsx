@@ -215,6 +215,17 @@ export default function JiraPanel() {
                     try {
                       if (win) {
                         win.location.replace(`/api/auth/jira/login?mode=redirect`);
+                        // If popup stays blank (blocked), force same-tab after short delay
+                        setTimeout(() => {
+                          try {
+                            if (win && (win.location.href === 'about:blank' || win.location.href === '')) {
+                              win.close();
+                              window.location.href = `/api/auth/jira/login?mode=redirect`;
+                            }
+                          } catch {
+                            // cross-origin (good) – do nothing
+                          }
+                        }, 800);
                         const check = setInterval(() => {
                           if (win && win.closed) {
                             clearInterval(check);
