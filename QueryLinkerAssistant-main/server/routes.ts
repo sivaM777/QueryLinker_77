@@ -732,7 +732,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (system === 'slack') {
         return res.redirect(authUrl);
       }
-      
+      // For Jira, allow redirect mode to make popups reliable
+      if (system === 'jira' && req.query.mode === 'redirect') {
+        return res.redirect(authUrl);
+      }
+
       res.json({ authUrl, redirectUri });
     } catch (error) {
       console.error(`Error generating ${req.params.system} auth URL:`, error);
