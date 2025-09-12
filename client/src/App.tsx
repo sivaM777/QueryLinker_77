@@ -77,7 +77,7 @@ function Router() {
         <Sidebar />
         <main className="flex-1 w-full flex min-h-screen flex-col transition-all overflow-hidden lg:ml-[var(--sidebar-width,16rem)]">
           <Header onSearchOpen={() => setIsSearchOpen(true)} />
-          <div className="flex-1 min-h-0 overflow-auto w-full max-w-none">
+          <div className="flex-1 min-h-0 overflow-auto w-full">
             <Switch>
               <Route path="/" component={Dashboard} />
               <Route path="/analytics" component={Analytics} />

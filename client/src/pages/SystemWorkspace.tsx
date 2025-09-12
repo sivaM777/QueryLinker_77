@@ -579,7 +579,7 @@ export default function SystemWorkspace() {
 
   // Authenticated workspace view
   return (
-    <div className="w-full px-2 py-4 space-y-4" data-testid="system-workspace-authenticated">
+    <div className="w-full px-0 py-2 space-y-2" data-testid="system-workspace-authenticated">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
@@ -645,7 +645,7 @@ export default function SystemWorkspace() {
       </div>
 
       {/* Workspace Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
         {/* Sidebar */}
         <div className="lg:col-span-1">
           <Card>
