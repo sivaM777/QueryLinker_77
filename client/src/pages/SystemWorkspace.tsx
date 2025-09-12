@@ -113,7 +113,7 @@ export default function SystemWorkspace() {
   // Slack Custom Interface Component
   function SlackInterface({ systemInfo }: { systemInfo: any }) {
     return (
-      <div className="h-full p-4">
+      <div className="h-full px-2 py-2">
         <SlackPanel />
       </div>
     );
@@ -202,7 +202,7 @@ export default function SystemWorkspace() {
     }
 
     return (
-      <div className="h-full p-6 space-y-6">
+      <div className="h-full px-2 py-4 space-y-4">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -579,7 +579,7 @@ export default function SystemWorkspace() {
 
   // Authenticated workspace view
   return (
-    <div className="p-6 space-y-6" data-testid="system-workspace-authenticated">
+    <div className="w-full px-2 py-4 space-y-4" data-testid="system-workspace-authenticated">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
