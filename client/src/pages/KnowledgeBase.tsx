@@ -183,7 +183,7 @@ export default function KnowledgeBase() {
               Add Solution
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl" data-testid="add-solution-dialog">
+          <DialogContent className="w-full" data-testid="add-solution-dialog">
             <DialogHeader>
               <DialogTitle>Add New Solution</DialogTitle>
               <p className="text-sm text-muted-foreground">

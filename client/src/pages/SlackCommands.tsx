@@ -165,7 +165,7 @@ export default function SlackCommands() {
       </div>
 
       <Dialog open={isCreating} onOpenChange={setIsCreating}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="w-full">
           <DialogHeader>
             <DialogTitle>Create Slack Command</DialogTitle>
           </DialogHeader>

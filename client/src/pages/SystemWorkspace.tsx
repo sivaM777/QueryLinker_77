@@ -523,7 +523,7 @@ export default function SystemWorkspace() {
         </div>
 
         {/* Authentication Required */}
-        <Card className="max-w-2xl mx-auto">
+        <Card className="w-full">
           <CardHeader className="text-center">
             <div className="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
               <Shield className="w-8 h-8 text-yellow-600 dark:text-yellow-400" />
