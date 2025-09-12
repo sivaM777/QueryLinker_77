@@ -61,7 +61,7 @@ export default function Analytics() {
 
 
   return (
-    <div className="p-6 space-y-6 animate-fadeIn" data-testid="analytics-page">
+    <div className="w-full px-2 py-4 space-y-4 animate-fadeIn" data-testid="analytics-page">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">

@@ -45,7 +45,7 @@ export default function Header({ onSearchOpen }: HeaderProps = {}) {
 
   return (
     <header className="bg-white dark:bg-slate-800 shadow-sm border-b border-gray-200 dark:border-slate-700 sticky top-0 z-20">
-      <div className="px-4 lg:px-6 py-4">
+      <div className="px-2 py-3">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center space-x-4 min-w-0 flex-1 lg:flex-initial">
             <div className="flex items-center">

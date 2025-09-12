@@ -75,9 +75,9 @@ function Router() {
     <SidebarProvider defaultOpen={true}>
       <div className="min-h-screen flex bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
         <Sidebar />
-        <main className="flex-1 w-full transition-all duration-300 ease-in-out overflow-x-hidden lg:ml-[var(--sidebar-width,16rem)]">
+        <main className="flex-1 w-full flex min-h-screen flex-col transition-all overflow-hidden lg:ml-[var(--sidebar-width,16rem)]">
           <Header onSearchOpen={() => setIsSearchOpen(true)} />
-          <div className="w-full max-w-none">
+          <div className="flex-1 min-h-0 overflow-auto w-full max-w-none">
             <Switch>
               <Route path="/" component={Dashboard} />
               <Route path="/analytics" component={Analytics} />

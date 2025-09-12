@@ -52,8 +52,8 @@ export default function Dashboard() {
 
 
   return (
-    <div className="min-h-screen space-y-6 animate-fadeIn" data-testid="dashboard-page">
-      <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 px-4 lg:px-6 py-4">
+    <div className="w-full px-2 space-y-4 animate-fadeIn" data-testid="dashboard-page">
+      <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 px-2 py-3">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
@@ -62,7 +62,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="p-4 lg:p-6 space-y-6">
+      <div className="px-2 space-y-4">
         <MetricsCards metrics={enhancedMetrics as any} isLoading={metricsLoading} />
 
         <ActiveIncidents />

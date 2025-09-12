@@ -136,7 +136,7 @@ export default function Activity() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-6">
+      <div className="w-full px-2 py-4 space-y-4">
         <div className="flex items-center space-x-3">
           <Skeleton className="h-8 w-8" />
           <Skeleton className="h-8 w-48" />
@@ -168,7 +168,7 @@ export default function Activity() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="w-full px-2 py-4 space-y-4">
       {/* Header */}
       <div className="flex items-center space-x-3">
         <div className="p-2 bg-primary/10 rounded-lg">

@@ -88,9 +88,9 @@ export default function AdvancedAnalytics() {
   ];
 
   return (
-    <div className="min-h-screen space-y-6 animate-fadeIn p-4 lg:p-6">
+    <div className="w-full px-2 space-y-4 animate-fadeIn">
       {/* Header */}
-      <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 px-4 lg:px-6 py-4 -mx-4 lg:-mx-6 -mt-4 lg:-mt-6 mb-6">
+      <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 px-2 py-3">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
